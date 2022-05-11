@@ -102,11 +102,8 @@ else:
     """)
     
 ## User Based
-st.text("Choose the UserId")
-user_pref = st.selectbox(
-    ' ',
-     (matrix['userId_x'].unique()))
-user_pref1 = int(user_pref)
+user_pref = st.sidebar.number_input("Enter user number", value=0, min_value=0, step=1, max_value=999)
+user_pref1 =int(user_pref)
 if(user_pref > 0):
     def get_user_prefered_item(newdf1: pd.DataFrame, userId_x: int):
         data=newdf1.copy()
