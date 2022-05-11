@@ -18,7 +18,7 @@ st.title("WBSFLIX")
  
 st.write("""
 ### Recommender Systems
-Popular Movies
+Popular Movies based On Genre
 """)
 
 # Popularity based
@@ -27,28 +27,26 @@ matrix.dropna()
 
 matrix.drop(['timestamp_x','timestamp_y','userId_y'], axis=1, inplace=True )
 
-def popularity_based_recommender(data: pd.DataFrame, min_n_ratings: int):
-    
+genres = st.selectbox(
+    ' ',
+     (matrix['genres'].unique()))
+def popularity_based_recommender_gen(data: pd.DataFrame, genres: str):
     return (
         matrix
         .groupby(['movieId', 'title',  'genres'])
         .agg(
-           
+
             movie_rating_mean = ('rating', 'mean'),
             movie_rating_count = ('rating', 'count')
         )
         .reset_index()
-        .sort_values('movie_rating_mean')
-        .query('movie_rating_count > @min_n_ratings')
+        .sort_values(['movie_rating_count'], ascending=False)
+        .query('genres == @genres')
         .head(5)
         )
-
-popularity_based_recommender(matrix.copy(), 20)
-
-matrix_1 = popularity_based_recommender(matrix.copy(), 20)
-popular_movies = matrix_1.filter(['title'])
-    
-st.dataframe(popular_movies)
+most_popular = popularity_based_recommender_gen(matrix.copy(),genres)
+matrix_1 = most_popular.filter(['title'])
+st.dataframe(matrix_1)
 
 # Sorting data
 newdf= (
