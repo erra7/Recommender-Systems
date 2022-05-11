@@ -18,15 +18,10 @@ st.title("WBSFLIX")
  
 st.write("""
 ### Recommender Systems
-Popular Movies based On Genre
 """)
 
 # Popularity based
-
-matrix.dropna()
-
-matrix.drop(['timestamp_x','timestamp_y','userId_y'], axis=1, inplace=True )
-
+st.text("Choose the Genres")
 genres = st.selectbox(
     ' ',
      (matrix['genres'].unique()))
@@ -42,11 +37,14 @@ def popularity_based_recommender_gen(data: pd.DataFrame, genres: str):
         .reset_index()
         .sort_values(['movie_rating_count'], ascending=False)
         .query('genres == @genres')
-        .head(7)
+        .head(5)
         )
 most_popular = popularity_based_recommender_gen(matrix.copy(),genres)
+st.text("Popular Movies based On Genre")
 matrix_1 = most_popular.filter(['title'])
 st.dataframe(matrix_1)
+ 
+        
 
 # Sorting data
 newdf= (
@@ -67,35 +65,12 @@ newdf= (
 newdf.set_index('userId_x')
 
 newdf1 = newdf.drop_duplicates()
-    
-## User Based
 
-user_pref = st.sidebar.number_input("Enter user number", value=0, min_value=0, step=1, max_value=999)
-user_pref1 = int(user_pref)
-if(user_pref > 0):
-    def get_user_prefered_item(newdf1: pd.DataFrame, userId_x: int):
-        data=newdf1.copy()
-        return(data
-        .query('userId_x == @userId_x') 
-        .sort_values('rating', ascending=False)
-        ['title'].to_list()[:6]
-        )
-    get_user_prefered_item(newdf1,user_pref1)
-    
-    st.text("Movies recommended based on the User ID")
-    
-    matrix_3 =  get_user_prefered_item(newdf1,user_pref1)
-    
-    st.dataframe(matrix_3)
-else:
-    st.write("""
-    Enter the user number
-    """)
-  
-  # # Iteam Based Movie
-
-movie_name = st.sidebar.text_input("Enter the name of a movie")
-
+# # Iteam Based Movie
+st.text("Choose the Movie name")
+movie_name = st.selectbox(
+    ' ',
+     (matrix['title'].unique()))
 # py function get sparse matrix
 def get_sparse_matrix(newdf1: pd.DataFrame): 
     return(
@@ -124,4 +99,30 @@ if(movie_name != ''):
 else:
     st.write("""
     Enter the movie name
+    """)
+    
+## User Based
+st.text("Choose the UserId")
+user_pref = st.selectbox(
+    ' ',
+     (matrix['userId_x'].unique()))
+user_pref1 = int(user_pref)
+if(user_pref > 0):
+    def get_user_prefered_item(newdf1: pd.DataFrame, userId_x: int):
+        data=newdf1.copy()
+        return(data
+        .query('userId_x == @userId_x') 
+        .sort_values('rating', ascending=False)
+        ['title'].to_list()[:6]
+        )
+    get_user_prefered_item(newdf1,user_pref1)
+    
+    st.text("Movies recommended based on the User ID")
+    
+    matrix_3 =  get_user_prefered_item(newdf1,user_pref1)
+    
+    st.dataframe(matrix_3)
+else:
+    st.write("""
+    Enter the user number
     """)
