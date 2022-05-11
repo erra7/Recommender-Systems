@@ -89,7 +89,7 @@ if(movie_name != ''):
              .to_list()[1:n+1]
             )
         except:
-            return st.text("given movie in not present in the data")
+            return st.text("Given movie in not present in the data it shows error try another movie please")
 
     matrix_2 = item_based_recommender(newdf1, movie_name)
     
