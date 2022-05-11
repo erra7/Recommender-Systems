@@ -3,10 +3,10 @@ import pandas as pd
 #import os
 
 
-ratings=pd.read_csv(r'Python/Jupyter/Recommender_Systems/ratings.csv')
-movies=pd.read_csv(r'Python/Jupyter/Recommender_Systems/movies.csv')
-links=pd.read_csv(r'Python/Jupyter/Recommender_Systems/links.csv')
-tags=pd.read_csv(r'Python/Jupyter/Recommender_Systems/tags.csv')
+ratings=pd.read_csv('ratings.csv')
+movies=pd.read_csv('movies.csv')
+links=pd.read_csv('links.csv')
+tags=pd.read_csv('tags.csv')
 
 
 matrix = pd.merge(ratings,movies, how ="inner", on = ["movieId"])
