@@ -93,7 +93,7 @@ if(movie_name != ''):
             )
         except:
             return 
-                st.text("given movie in not present in the data")
+                  st.text("given movie in not present in the data")
 
     matrix_2 = item_based_recommender(newdf1, movie_name)
     
