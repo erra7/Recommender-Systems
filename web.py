@@ -51,59 +51,59 @@ popular_movies = matrix_1.filter(['title'])
 st.dataframe(popular_movies)
 
 # Sorting data
-newdf= (
-    matrix
-    .filter(['userId_x', 'title', 'rating'])
-    .groupby(['userId_x'])
-    .head(5))
+# newdf= (
+#     matrix
+#     .filter(['userId_x', 'title', 'rating'])
+#     .groupby(['userId_x'])
+#     .head(5))
 
-(newdf
-    .groupby(['userId_x'])
-    .agg(
-        mean_rating = ('rating', 'mean'),
-        count_rating = ('rating', 'count')
-    )
-    .reset_index()
-    .sort_values('mean_rating', ascending=False))
+# (newdf
+#     .groupby(['userId_x'])
+#     .agg(
+#         mean_rating = ('rating', 'mean'),
+#         count_rating = ('rating', 'count')
+#     )
+#     .reset_index()
+#     .sort_values('mean_rating', ascending=False))
 
-newdf.set_index('userId_x')
+# newdf.set_index('userId_x')
 
-newdf1 = newdf.drop_duplicates()
+# newdf1 = newdf.drop_duplicates()
 
-# # Iteam Based Movie
+# # # Iteam Based Movie
 
-movie_name = st.sidebar.text_input("Enter the name of a movie")
+# movie_name = st.sidebar.text_input("Enter the name of a movie")
 
 # py function get sparse matrix
-def get_sparse_matrix(newdf1: pd.DataFrame): 
-    return(
-    newdf1
-        .pivot(index='userId_x', columns='title', values='rating')
-    ) 
+# def get_sparse_matrix(newdf1: pd.DataFrame): 
+#     return(
+#     newdf1
+#         .pivot(index='userId_x', columns='title', values='rating')
+#     ) 
     
-if(movie_name != ''):
-    def item_based_recommender(dense_matrix: pd.DataFrame, title: str, n: int=5): 
-        try:
-            sparse_matrix = get_sparse_matrix(newdf1)
-            return( sparse_matrix
-             .corrwith(sparse_matrix[title])
-             .sort_values(ascending=False)
-             .index
-             .to_list()[1:n+1]
-            )
-        except:
-            return 
-                  st.text("given movie in not present in the data")
+# if(movie_name != ''):
+#     def item_based_recommender(dense_matrix: pd.DataFrame, title: str, n: int=5): 
+#         try:
+#             sparse_matrix = get_sparse_matrix(newdf1)
+#             return( sparse_matrix
+#              .corrwith(sparse_matrix[title])
+#              .sort_values(ascending=False)
+#              .index
+#              .to_list()[1:n+1]
+#             )
+#         except:
+#             return 
+#                   st.text("given movie in not present in the data")
 
-    matrix_2 = item_based_recommender(newdf1, movie_name)
+#     matrix_2 = item_based_recommender(newdf1, movie_name)
     
-    st.text("Movies recommended based on the given Input")
+#     st.text("Movies recommended based on the given Input")
     
-    st.dataframe(matrix_2)
-else:
-    st.write("""
-    Enter the movie name
-    """)
+#     st.dataframe(matrix_2)
+# else:
+#     st.write("""
+#     Enter the movie name
+#     """)
     
 ## User Based
 
