@@ -42,7 +42,7 @@ def popularity_based_recommender_gen(data: pd.DataFrame, genres: str):
         .reset_index()
         .sort_values(['movie_rating_count'], ascending=False)
         .query('genres == @genres')
-        .head(5)
+        .head(7)
         )
 most_popular = popularity_based_recommender_gen(matrix.copy(),genres)
 matrix_1 = most_popular.filter(['title'])
